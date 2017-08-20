@@ -24,7 +24,9 @@ function multiregister_info()
 function multiregister_install()
 {
 	global $db, $mybb;
-
+	
+	$db->query("UPDATE `".TABLE_PREFIX."settings` SET `value` = '1' WHERE `".TABLE_PREFIX."settings`.`sid` =77");
+	
 	$setting_group = array(
 	    'name' => 'multiregister',
 	    'title' => 'Multiregister',
@@ -566,7 +568,7 @@ function multiregister_usercp() {
 			// Set the time so we can find automated signups
 			$time = TIME_NOW;
 			if($mybb->settings['multiregister_as'] == "1") {
-				$mastername = $db->fetch_field($db->query("SELECT username FROM mybb_users WHERE uid = '{$mybb->user['as_uid']}'"), "username");
+				$mastername = $db->fetch_field($db->query("SELECT username FROM ".TABLE_PREFIX."users WHERE uid = '{$mybb->user['as_uid']}'"), "username");
 				if(empty($mybb->user['as_uid'])) {
 					$mastername = $mybb->user['username'];
 				}
